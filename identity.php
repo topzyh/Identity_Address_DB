@@ -70,8 +70,3 @@ class identity
         }
     }
 }
-
-$identity = '33022119670222791X';
-if (new identity) {
-    # code...
-}
