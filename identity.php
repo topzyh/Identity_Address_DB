@@ -1,27 +1,33 @@
 <?php
 /**
  * 身份证号码处理
+ * @author TopZYH <zyh.95@163.com>
  */
 class identity
 {
-    private $identity;
-    public function __construct($identity)
+
+    /**
+     * 判断身份证号码是否正确
+     */
+    public function is_identity($identity)
     {
-        // 判断身份证真实性
-        $card = (string) $identity; //身份证号码
-        $map  = array(1, 0, X, 9, 8, 7, 6, 5, 4, 3, 2);
-        $sum  = 0;
-        for ($i = 17; $i > 0; $i--) {
-            $s = pow(2, $i) % 11;
-            $sum += $s * $card[17 - $i];
-        }
-        // $map[$sum % 11];//这里显示最后一位校验码
-        if ($map[$sum % 11] == substr($card, 17, 1)) {
-            $this->$identity = $identity;
-        } elseif ($map[$sum % 11] == 'X' || substr($card, 17, 1) == 'x') {
-            $this->$identity = $identity;
-        } else {
+        if (strlen($identity) != 18) {
             return false;
+        }
+        $identity_body     = substr($identity, 0, 17); // 身份证主体(前17位)
+        $identity_lastCode = strtoupper(substr($identity, 17, 1)); // 身份证最后一位的验证码
+        $factor            = array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2); // 加权因子
+        $code              = array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'); // 校验码对应值
+        $checksum          = 0;
+
+        for ($i = 0; $i < strlen($identity_body); $i++) {
+            $checksum += substr($identity_body, $i, 1) * $factor[$i];
+        }
+        // $code[$checksum % 11] 为计算后的最后一位效验码
+        if ($code[$checksum % 11] != $identity_lastCode) {
+            return false;
+        } else {
+            return true;
         }
     }
 
