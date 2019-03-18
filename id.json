@@ -2130,9 +2130,14 @@
         "status": 1
     },
     {
-        "id": "廊坊",
-        "provinceId": "",
-        "cityId": 0
+        "id": 131000,
+        "provinceId": 13,
+        "cityId": 10,
+        "countyId": 0,
+        "provinceName": "河北",
+        "cityName": "廊坊",
+        "countName": "",
+        "status": 0
     },
     {
         "id": 131001,
